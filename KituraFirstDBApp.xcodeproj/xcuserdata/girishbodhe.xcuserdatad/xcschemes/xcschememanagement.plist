@@ -119,30 +119,40 @@
 			<key>orderHint</key>
 			<integer>22</integer>
 		</dict>
-		<key>SwiftMetricsPackageDescription.xcscheme</key>
+		<key>SwiftKueryPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>23</integer>
 		</dict>
-		<key>SwiftyJSONPackageDescription.xcscheme</key>
+		<key>SwiftKueryPostgreSQLPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>24</integer>
 		</dict>
-		<key>SwiftyRequestPackageDescription.xcscheme</key>
+		<key>SwiftMetricsPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>25</integer>
 		</dict>
-		<key>TypeDecoderPackageDescription.xcscheme</key>
+		<key>SwiftyJSONPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>26</integer>
 		</dict>
-		<key>omr-agentcorePackageDescription.xcscheme</key>
+		<key>SwiftyRequestPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>27</integer>
+		</dict>
+		<key>TypeDecoderPackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>28</integer>
+		</dict>
+		<key>omr-agentcorePackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>29</integer>
 		</dict>
 	</dict>
 </dict>
