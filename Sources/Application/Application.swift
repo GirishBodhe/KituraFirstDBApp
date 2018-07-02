@@ -16,6 +16,7 @@ public class App {
     public init() throws {
         // Run the metrics initializer
         initializeMetrics(router: router)
+        router.all(middleware: BodyParser())
     }
 
     func postInit() throws {
