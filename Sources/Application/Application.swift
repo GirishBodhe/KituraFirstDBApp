@@ -38,14 +38,18 @@ public class App {
         
         // Handle HTTP GET requests to "/"
         router.get("/") { request, response, next in
+          response.send("PrideVel..!!")
+            next()
+        }
+        router.get("/insert") { request, response, next in
             
-            let targetURL = URL(string: "zfdtmyn:9c4b553e93629efbfd8fc93cf2bf0b680a45f28bb7b776741d431b24bf456cc6@ec2-107-21-236-219.compute-1.amazonaws.com:5432/dajoh4aerlt4c1")
+            let targetURL = URL(string: "postgres://ddmerwmzfdtmyn:9c4b553e93629efbfd8fc93cf2bf0b680a45f28bb7b776741d431b24bf456cc6@ec2-107-21-236-219.compute-1.amazonaws.com:5432/dajoh4aerlt4c1")
             let pool = PostgreSQLConnection.createPool(url:targetURL!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
             
 //            let randomNum = Int(arc4random_uniform(100)) // range is 0 to 99
            
             
-            let students: [[Any]] = [[3, "computing", 78], [4, "physics", 98], [5, "history", 99]]
+            let students: [[Any]] = [[1, "computing", 38], [2, "physics", 88], [3, "history", 91]]
             
             if let connection = pool.getConnection() {
                 let insertQuery = Insert(into: self.grades, rows: students)
@@ -54,12 +58,38 @@ public class App {
                         if let resultSet = selectResult.asResultSet {
                             for row in resultSet.rows {
                                 response.send("Student: \(row[0] ?? ""), studying: \(row[1] ?? ""), scored: \(row[2] ?? "")\n")
+                                print("Student: \(row[0] ?? ""), studying: \(row[1] ?? ""), scored: \(row[2] ?? "")\n")
                             }
                         }
                     }
                 }
             }
 //            response.send("PrideVel..!!")
+            next()
+        }
+        router.get("/all") { request, response, next in
+            
+            let targetURL = URL(string: "postgres://ddmerwmzfdtmyn:9c4b553e93629efbfd8fc93cf2bf0b680a45f28bb7b776741d431b24bf456cc6@ec2-107-21-236-219.compute-1.amazonaws.com:5432/dajoh4aerlt4c1")
+            let pool = PostgreSQLConnection.createPool(url:targetURL!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
+            
+            //            let randomNum = Int(arc4random_uniform(100)) // range is 0 to 99
+            
+            
+//            let students: [[Any]] = [[3, "computing", 78], [4, "physics", 98], [5, "history", 99]]
+            
+            if let connection = pool.getConnection() {
+//                let insertQuery = Insert(into: self.grades, rows: students)
+//                connection.execute(query: insertQuery) { insertResult in
+                    connection.execute(query: Select(from: self.grades)) { selectResult in
+                        if let resultSet = selectResult.asResultSet {
+                            for row in resultSet.rows {
+                                response.send("Student: \(row[0] ?? ""), studying: \(row[1] ?? ""), scored: \(row[2] ?? "")\n")
+                            }
+                        }
+//                    }
+                }
+            }
+            //            response.send("PrideVel..!!")
             next()
         }
         
