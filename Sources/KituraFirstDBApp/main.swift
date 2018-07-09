@@ -8,7 +8,7 @@ import SwiftKueryPostgreSQL
 
 do {
    
-    let pool = PostgreSQLConnection.createPool(host: "localhost", port: 5432, options: [.databaseName("school")], poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
+//    let pool = PostgreSQLConnection.createPool(host: "localhost", port: 5432, options: [.databaseName("school")], poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
 //    Database.default = Database(pool)
     
     
@@ -21,12 +21,12 @@ do {
         let grade = Column("grade", Int32.self)
     }
     let grades = Grades()
-//    let pool = PostgreSQLConnection.createPool(host: "localhost", port: 8080, options: [.databaseName("school")], poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
-    let students: [[Any]] = [[0, "computing", 921], [1, "physics", 751], [2, "history", 813]]
+    let pool = PostgreSQLConnection.createPool(host: "localhost", port: 5432, options: [.databaseName("school")], poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
+//    let students: [[Any]] = [[0, "computing", 921], [1, "physics", 751], [2, "history", 813]]
     
     if let connection = pool.getConnection() {
-        let insertQuery = Insert(into: grades, rows: students)
-        connection.execute(query: insertQuery) { insertResult in
+//        let insertQuery = Insert(into: grades, rows: students)
+//        connection.execute(query: insertQuery) { insertResult in
             connection.execute(query: Select(from: grades)) { selectResult in
                 if let resultSet = selectResult.asResultSet {
                     for row in resultSet.rows {
@@ -34,7 +34,7 @@ do {
                     }
                 }
             }
-        }
+//        }
     }
     let app = try App()
     try app.run()
