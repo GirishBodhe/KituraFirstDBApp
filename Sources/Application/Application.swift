@@ -38,14 +38,14 @@ public class App {
         
         // Handle HTTP GET requests to "/"
         router.get("/") { request, response, next in
-        
-            let pool = PostgreSQLConnection.createPool(url:NSURL(fileURLWithPath:"zfdtmyn:9c4b553e93629efbfd8fc93cf2bf0b680a45f28bb7b776741d431b24bf456cc6@ec2-107-21-236-219.compute-1.amazonaws.com:5432/dajoh4aerlt4c1") as URL, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
             
-            let randomNum:UInt32 = arc4random_uniform(100) // range is 0 to 99
-            // convert the UInt32 to some other  types
-            let someInt:Int = Int(randomNum)
+            let targetURL = URL(string: "zfdtmyn:9c4b553e93629efbfd8fc93cf2bf0b680a45f28bb7b776741d431b24bf456cc6@ec2-107-21-236-219.compute-1.amazonaws.com:5432/dajoh4aerlt4c1")
+            let pool = PostgreSQLConnection.createPool(url:targetURL!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
             
-            let students: [[Any]] = [[3, "computing", someInt], [4, "physics", someInt], [5, "history", someInt]]
+            let randomNum = Int(arc4random_uniform(100)) // range is 0 to 99
+           
+            
+            let students: [[Any]] = [[3, "computing", randomNum], [4, "physics", randomNum], [5, "history", randomNum]]
             
             if let connection = pool.getConnection() {
                 let insertQuery = Insert(into: self.grades, rows: students)
