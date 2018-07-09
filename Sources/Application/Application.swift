@@ -48,22 +48,44 @@ public class App {
             
 //            let randomNum = Int(arc4random_uniform(100)) // range is 0 to 99
            
-            
-            let students: [[Any]] = [[1, "computing", 38], [2, "physics", 88], [3, "history", 91]]
-            
+            let query = Select(from: self.grades)
+            .order(by: .DESC(self.grades.id))
+     
             if let connection = pool.getConnection() {
-                let insertQuery = Insert(into: self.grades, rows: students)
-                connection.execute(query: insertQuery) { insertResult in
-                    connection.execute(query: Select(from: self.grades)) { selectResult in
-                        if let resultSet = selectResult.asResultSet {
-                            for row in resultSet.rows {
-                                response.send("Student: \(row[0] ?? ""), studying: \(row[1] ?? ""), scored: \(row[2] ?? "")\n")
-                                print("Student: \(row[0] ?? ""), studying: \(row[1] ?? ""), scored: \(row[2] ?? "")\n")
+            
+                connection.execute(query: query) { selectResult in
+                    if let resultSet = selectResult.asResultSet {
+                        var dataOne = true
+                         for row in resultSet.rows {
+                            if (dataOne){
+                               dataOne = false
+                                let nextId = row[0] as! Int32 + 1
+                                let students: [[Any]] = [[nextId , "computing\(nextId)", nextId + 30]]
+                                let insertQuery = Insert(into: self.grades, rows: students)
+                                connection.execute(query: insertQuery) { insertResult in
+                                    
+                                    print("success insert..!")
+                                    response.send("Added..!")
+                                }
+                            
                             }
                         }
                     }
                 }
             }
+                
+//                let insertQuery = Insert(into: self.grades, rows: students)
+//                connection.execute(query: insertQuery) { insertResult in
+//                    connection.execute(query: Select(from: self.grades)) { selectResult in
+//                        if let resultSet = selectResult.asResultSet {
+//                            for row in resultSet.rows {
+//                                response.send("Student: \(row[0] ?? ""), studying: \(row[1] ?? ""), scored: \(row[2] ?? "")\n")
+//                                print("Student: \(row[0] ?? ""), studying: \(row[1] ?? ""), scored: \(row[2] ?? "")\n")
+//                            }
+//                        }
+//                    }
+//                }
+//            }
 //            response.send("PrideVel..!!")
             next()
         }
