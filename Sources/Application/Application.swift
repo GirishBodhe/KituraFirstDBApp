@@ -41,6 +41,51 @@ public class App {
           response.send("PrideVel..!!")
             next()
         }
+        
+       
+        router.get("/delete") { request, response, next in
+            
+            let targetURL = URL(string: "postgres://ddmerwmzfdtmyn:9c4b553e93629efbfd8fc93cf2bf0b680a45f28bb7b776741d431b24bf456cc6@ec2-107-21-236-219.compute-1.amazonaws.com:5432/dajoh4aerlt4c1")
+            let pool = PostgreSQLConnection.createPool(url:targetURL!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
+            
+            //            let randomNum = Int(arc4random_uniform(100)) // range is 0 to 99
+            
+            
+            if let connection = pool.getConnection() {
+                
+                let deleteQuery = Delete(from: self.grades).where(self.grades.id == 20);  connection.execute(query: deleteQuery) { insertResult in
+                    
+                    print("success Delete..!")
+                    response.send("Delete..!")
+                }
+                
+            }
+            
+        }
+        
+        
+        router.get("/update") { request, response, next in
+            
+            let targetURL = URL(string: "postgres://ddmerwmzfdtmyn:9c4b553e93629efbfd8fc93cf2bf0b680a45f28bb7b776741d431b24bf456cc6@ec2-107-21-236-219.compute-1.amazonaws.com:5432/dajoh4aerlt4c1")
+            let pool = PostgreSQLConnection.createPool(url:targetURL!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
+            
+            //            let randomNum = Int(arc4random_uniform(100)) // range is 0 to 99
+            
+            
+            if let connection = pool.getConnection() {
+                
+                                let query = Update(self.grades, set: [(self.grades.course, "UpdatedValue English"), (self.grades.grade, 899)])
+                                    .where(self.grades.id == 20)
+                                connection.execute(query: query) { insertResult in
+                                    
+                                    print("success Updated..!")
+                                    response.send("Updated..!")
+                                }
+                                
+                            }
+            
+            }
+    
         router.get("/insert") { request, response, next in
             
             let targetURL = URL(string: "postgres://ddmerwmzfdtmyn:9c4b553e93629efbfd8fc93cf2bf0b680a45f28bb7b776741d431b24bf456cc6@ec2-107-21-236-219.compute-1.amazonaws.com:5432/dajoh4aerlt4c1")
@@ -60,6 +105,8 @@ public class App {
                             if (dataOne){
                                dataOne = false
                                 let nextId = row[0] as! Int32 + 1
+//                                UPDATE COMPANY SET SALARY = 15000 WHERE ID = 3;
+                                
                                 let students: [[Any]] = [[nextId , "computing\(nextId)", nextId + 30]]
                                 let insertQuery = Insert(into: self.grades, rows: students)
                                 connection.execute(query: insertQuery) { insertResult in
