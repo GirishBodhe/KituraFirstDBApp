@@ -85,6 +85,7 @@ public class App {
                             }
             
             }
+        
         router.post("/insert") { request, response, next in
            
             
@@ -97,18 +98,21 @@ public class App {
                 let pool = PostgreSQLConnection.createPool(url:targetURL!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
                 
                 //            let randomNum = Int(arc4random_uniform(100)) // range is 0 to 99
-                
+                print("Connected....!!")
                 let query = Select(from: self.grades)
                     .order(by: .DESC(self.grades.id))
                 
                 if let connection = pool.getConnection() {
                     
                     connection.execute(query: query) { selectResult in
+                        print("Query....!!")
                         if let resultSet = selectResult.asResultSet {
                             var dataOne = true
                             for row in resultSet.rows {
                                 if (dataOne){
                                     dataOne = false
+                                    
+                                    print("Query_Result....!!")
                                     let nextId = row[0] as! Int32 + 1
                                     
 //                                    let students: [[Any]] = [[nextId , "computing\(nextId)", nextId + 30]]
