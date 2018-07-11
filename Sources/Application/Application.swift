@@ -116,7 +116,7 @@ public class App {
                                     let nextId = row[0] as! Int32 + 1
                                     
 //                                    let students: [[Any]] = [[nextId , "computing\(nextId)", nextId + 30]]
-                                    let students: [[Any]] = [[nextId , jsonData["course"] as! String , jsonData["grade"] as! Int32]]
+                                    let students: [[Any]] = [[nextId , jsonData["course"] as! String , jsonData["grade"] as! Int]]
                                     
                                     let insertQuery = Insert(into: self.grades, rows: students)
                                     connection.execute(query: insertQuery) { insertResult in
